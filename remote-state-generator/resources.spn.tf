@@ -15,7 +15,7 @@ resource "azuread_service_principal" "sp" {
     azuread_application.app
   ]
 
-  application_id    = azuread_application.app.application_id
+  client_id         = azuread_application.app.client_id
   alternative_names = var.alternative_names
   description       = var.service_principal_description
 }

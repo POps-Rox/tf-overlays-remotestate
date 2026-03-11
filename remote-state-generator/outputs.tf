@@ -11,7 +11,7 @@ output "container_name" {
 }
 
 output "client_ID" {
-  value = azuread_application.app.application_id
+  value = azuread_application.app.client_id
 }
 
 output "client_secret" {
