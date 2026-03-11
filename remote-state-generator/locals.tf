@@ -3,6 +3,6 @@
 
 # 
 locals {
-  tenant_id = data.azurerm_client_config.current.tenant_id
+  tenant_id       = data.azurerm_client_config.current.tenant_id
   subscription_id = "subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }

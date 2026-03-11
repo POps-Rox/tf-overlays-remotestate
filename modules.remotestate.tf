@@ -11,24 +11,24 @@ module "mod_remote_state" {
   source = "./remote-state-generator"
 
 
-    # Globals
-    org_name = "anoa"
-    location = "eastus"
-    workload_name = "remote-state"
+  # Globals
+  org_name      = "anoa"
+  location      = "eastus"
+  workload_name = "remote-state"
 
-    # SPN
-    service_principal_name = "subscription-spn"
-    alternative_names = []
-    service_principal_description = "Updates subscription and TF workspaces"
+  # SPN
+  service_principal_name        = "subscription-spn"
+  alternative_names             = []
+  service_principal_description = "Updates subscription and TF workspaces"
 
-    # KeyVault
-    purge_protection_enabled = false
-    soft_delete_retention_days = 7
+  # KeyVault
+  purge_protection_enabled   = false
+  soft_delete_retention_days = 7
 
-    #Resource Locks
-    enable_resource_locks = false
-    lock_level = "CanNotDelete"
-    
+  #Resource Locks
+  enable_resource_locks = false
+  lock_level            = "CanNotDelete"
+
 
 
 }
@@ -51,7 +51,7 @@ output "client_ID" {
 }
 
 output "client_secret" {
-  value = module.mod_remote_state.client_secret
+  value     = module.mod_remote_state.client_secret
   sensitive = true
 }
 

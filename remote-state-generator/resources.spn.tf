@@ -6,7 +6,7 @@ resource "azuread_application" "app" {
   depends_on = [
     azurerm_resource_group.staterg
   ]
-  display_name     = var.service_principal_name
+  display_name = var.service_principal_name
 }
 
 # SPN Assignment To App Registration
@@ -14,7 +14,7 @@ resource "azuread_service_principal" "sp" {
   depends_on = [
     azuread_application.app
   ]
-  
+
   application_id    = azuread_application.app.application_id
   alternative_names = var.alternative_names
   description       = var.service_principal_description
@@ -32,7 +32,7 @@ resource "azurerm_role_assignment" "role" {
   ]
 
   description          = "Current Subscription Contributor Role"
-  scope = local.subscription_id
+  scope                = local.subscription_id
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.sp.id
 

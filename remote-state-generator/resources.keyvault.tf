@@ -2,24 +2,24 @@
 # Key Vault configuration - Default (required). 
 #------------------------------------------------------------
 resource "azurerm_key_vault" "keyvault" {
-  
+
   depends_on = [
     azurerm_resource_group.staterg
   ]
   # Globals
-  name = local.kv_name
-  location = local.location
+  name                = local.kv_name
+  location            = local.location
   resource_group_name = local.rg_name
-  tenant_id = local.tenant_id
-  sku_name = "standard"
+  tenant_id           = local.tenant_id
+  sku_name            = "standard"
 
   # Keyvault Configurations - Hard Coded
-  enabled_for_disk_encryption = false
-  enable_rbac_authorization = false
+  enabled_for_disk_encryption   = false
+  enable_rbac_authorization     = false
   public_network_access_enabled = true
 
   # Keyvault Configurations - Vars
-  purge_protection_enabled = var.purge_protection_enabled
+  purge_protection_enabled   = var.purge_protection_enabled
   soft_delete_retention_days = var.soft_delete_retention_days
 }
 
@@ -29,37 +29,37 @@ resource "azurerm_key_vault_access_policy" "admin_policy" {
     azurerm_key_vault.keyvault
   ]
 
-   tenant_id = local.tenant_id
-   object_id = data.azurerm_client_config.current.object_id
-   key_vault_id = azurerm_key_vault.keyvault.id 
+  tenant_id    = local.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
+  key_vault_id = azurerm_key_vault.keyvault.id
 
-   key_permissions = [
-        "Get",
-        "List",
-        "Create",
-        "Delete",
-        "Purge"
-    ]
-    secret_permissions = [
-        "Get",
-        "List",
-        "Set",
-        "Delete",
-        "Purge",
-        "Recover"
+  key_permissions = [
+    "Get",
+    "List",
+    "Create",
+    "Delete",
+    "Purge"
+  ]
+  secret_permissions = [
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Purge",
+    "Recover"
 
-        ]
+  ]
 
-        storage_permissions = [
-        "Get",
-        "GetSAS",
-        "SetSAS",
-        "Delete",
-        "Purge"
+  storage_permissions = [
+    "Get",
+    "GetSAS",
+    "SetSAS",
+    "Delete",
+    "Purge"
 
-        ]
- }
- 
+  ]
+}
+
 # SPN Policy
 resource "azurerm_key_vault_access_policy" "spn_policy" {
   depends_on = [
@@ -67,25 +67,25 @@ resource "azurerm_key_vault_access_policy" "spn_policy" {
     azuread_application.app
   ]
 
-  object_id = azuread_application.app.object_id
-  tenant_id = local.tenant_id
+  object_id    = azuread_application.app.object_id
+  tenant_id    = local.tenant_id
   key_vault_id = azurerm_key_vault.keyvault.id
 
- key_permissions = [
-        "Get",
-        "List"
-    ]
-    secret_permissions = [
-        "Get",
-        "List"
-        ]
+  key_permissions = [
+    "Get",
+    "List"
+  ]
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
 
-    storage_permissions = [
+  storage_permissions = [
     "Get",
     "GetSAS",
     "List",
     "ListSAS"
-    ]
+  ]
 }
 
 
@@ -97,7 +97,7 @@ resource "azurerm_key_vault_secret" "tfstatekvsecret" {
     azurerm_key_vault_access_policy.admin_policy
   ]
 
-  name = "tfstatesakey"
-  value = azurerm_storage_account.tfstatesa.primary_access_key
+  name         = "tfstatesakey"
+  value        = azurerm_storage_account.tfstatesa.primary_access_key
   key_vault_id = azurerm_key_vault.keyvault.id
 }

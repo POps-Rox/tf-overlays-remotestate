@@ -6,5 +6,5 @@ locals {
     deployedBy  = format("AzureNoOpsTF [%s]", terraform.workspace)
     environment = local.environment
     workload    = var.workload_name
-  } 
+  }
 }
